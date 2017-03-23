@@ -1,16 +1,94 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.robertmcateer.com.navigation.AddEvent">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/add_frag"
-        android:gravity="center"
-        android:textSize="35sp"
-        android:textStyle="bold" />
 
-</FrameLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="20sp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/AddEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_margin="15sp"
+            android:inputType="text"
+            android:text="Title"
+            />
+
+        <EditText
+            android:id="@+id/AddDateText"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_below="@+id/AddEventTitle"
+            android:layout_margin="15sp"
+            android:text="Date"
+            />
+
+        <Button
+            android:id="@+id/AddDateEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/AddEventTitle"
+            android:layout_toRightOf="@id/AddDateText"
+            android:layout_margin="15sp"
+            android:layout_centerInParent="true"
+            android:text="Select Date"
+            android:textColor="@color/colorWhite"
+            android:background="@color/button"
+            />
+
+        <EditText
+            android:id="@+id/AddVenueEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_below="@+id/AddDateEvent"
+            android:layout_margin="15sp"
+            android:text="Venue"
+            />
+
+        <EditText
+            android:id="@+id/AddTypeEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_below="@+id/AddVenueEvent"
+            android:layout_marginLeft="15sp"
+            android:layout_marginRight="15sp"
+            android:text="Type of Event"
+            />
+
+        <Button
+            android:id="@+id/AddEventButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/AddTypeEvent"
+            android:layout_marginBottom="10sp"
+            android:layout_margin="15sp"
+            android:layout_centerInParent="true"
+            android:text="Add Event"
+            android:textColor="@color/colorWhite"
+            android:background="@color/button"
+            />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

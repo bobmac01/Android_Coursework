@@ -24,11 +24,20 @@
     <string name="view_button">View</string>
     <string name="edit_button">Edit</string>
 
-    <!-- Cardview Placeholder text -->
+    <!-- Cardview generic placeholder text -->
     <string name="titlePlaceholder">TITLE</string>
     <string name="locationPlaceholder">LOCATION</string>
     <string name="datePlaceholder">01/02/2017</string>
     <string name="eventTypePlaceholder">FESTIVAL</string>
+
+    <string-array name="spinnerText">
+        <item>Concert</item>
+        <item>Festival</item>
+        <item>Sport</item>
+        <item>Exhibition</item>
+        <item>Race</item>
+        <item>Not Defined</item>
+    </string-array>
 
 
 </resources>

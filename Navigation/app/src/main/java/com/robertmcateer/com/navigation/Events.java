@@ -5,6 +5,7 @@ import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,10 @@ import java.util.List;
 public class Events extends Fragment
 {
     ArrayList<NewEvent> events;
+    public Boolean isComplete;
+
+    GetEventData event = new GetEventData();
+
 
     public Events()
     {
@@ -38,17 +43,17 @@ public class Events extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        GetEventData event = new GetEventData();
         event.execute();
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
 
+
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-
+/*
         DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
 
         events = new ArrayList<NewEvent>();
@@ -65,9 +70,8 @@ public class Events extends Fragment
 
         RecyclerView.Adapter adapter = new MyRecyclerAdapter(events);
         recyclerView.setAdapter(adapter);
-
+*/
     }
-
 
     public void DatabaseTest()
     {
@@ -208,33 +212,25 @@ public class Events extends Fragment
             if(values.length > 0)
             {
                     //Log.i("NEW EVENT", "----------------- Database insert -----------------------");
-/*
+
                     Log.i("Title", values[0]);
                     Log.i("Location", values[1]);
                     Log.i("Date", values[2]);
                     Log.i("Type of event", values[3]);
                     Log.i("URL", values[4]);
-*/
+
                 DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
-
-                Object n = db.getEvent(values[0]);
-
-                if(n != null)
-                {
-                    Log.i("DATABASE_STUFF","NEW EVENT NOT NULL");
-                }
-                else
-                {
-                    Log.i("DATABASE_STUFF","NEW EVENT NOT NULL");
-
-                }
 
                 //db.addEvent(new NewEvent(values[0], values[4], values[1], values[2], values[3]));
                 //db.addEvent(new NewEvent("","","","",""));
                 //Log.i("database all", db.getAllEvents().toString());
             }
-
             super.onProgressUpdate();
+        }
+
+        protected void onPostExecute(String result)
+        {
+            isComplete = true;
         }
     }
 }
