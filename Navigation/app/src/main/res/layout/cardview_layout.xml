@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20sp"
+    android:layout_marginEnd="20sp"
+    android:layout_marginTop="20sp"
+    android:id="@+id/templateCard"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/card_title"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:textSize="22sp"
+                    android:text="@string/titlePlaceholder"
+                    />
+
+                <TextView
+                    android:id="@+id/card_location"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_below="@+id/card_title"
+                    android:text="@string/locationPlaceholder"
+                    />
+
+                <TextView
+                    android:id="@+id/card_date"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_below="@+id/card_location"
+                    android:text="@string/datePlaceholder"
+
+                    />
+
+                <TextView
+                    android:id="@+id/card_event_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginLeft="20sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_below="@+id/card_location"
+                    android:layout_toRightOf="@id/card_date"
+                    android:layout_toEndOf="@id/card_date"
+                    android:text="@string/eventTypePlaceholder"
+                    />
+
+                <Button
+                    android:id="@+id/viewBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginStart="5sp"
+                    android:layout_below="@+id/card_event_type"
+                    android:layout_alignRight="@id/card_event_type"
+                    android:layout_alignEnd="@id/card_event_type"
+                    android:background="@color/button"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/view_button" />
+
+                <Button
+                    android:id="@+id/editBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:layout_below="@+id/card_event_type"
+                    android:background="@color/button"
+                    android:textColor="@color/colorWhite"
+                    android:layout_toLeftOf="@+id/viewBtn"
+                    android:layout_toStartOf="@+id/viewBtn"
+                    android:text="@string/edit_button" />
+
+            </RelativeLayout>
+    </android.support.v7.widget.CardView>
