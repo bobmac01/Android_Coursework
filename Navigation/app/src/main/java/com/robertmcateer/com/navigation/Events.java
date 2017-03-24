@@ -28,7 +28,7 @@ import java.util.List;
 
 public class Events extends Fragment
 {
-    ArrayList<NewEvent> events;
+    public static ArrayList<NewEvent> events;
     public Boolean isComplete;
 
     GetEventData event = new GetEventData();
@@ -43,7 +43,8 @@ public class Events extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        event.execute();
+        GetEventData g = new GetEventData();
+        g.execute();
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_events, container, false);
@@ -53,14 +54,14 @@ public class Events extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-/*
+
         DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
 
         events = new ArrayList<NewEvent>();
 
         for(NewEvent n : db.getAllEvents())
         {
-            events.add(new NewEvent(n.getTitle(), "", n.getVenue(), n.getDate(), n.getEventType()));
+            events.add(new NewEvent(n.getTitle(), n.getURI(), n.getVenue(), n.getDate(), n.getEventType()));
         }
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
@@ -70,7 +71,7 @@ public class Events extends Fragment
 
         RecyclerView.Adapter adapter = new MyRecyclerAdapter(events);
         recyclerView.setAdapter(adapter);
-*/
+
     }
 
     public void DatabaseTest()
@@ -97,59 +98,49 @@ public class Events extends Fragment
         }
     }
 
-    private class GetEventData extends AsyncTask<Object, String, Integer>
+    public class GetEventData extends AsyncTask<Object, String, Integer>
     {
+
         private final String QUERY_STRING =
                 "http://api.songkick.com/api/3.0/metro_areas/24596/calendar.xml?apikey=LGlk9gNZ5vlumW7u";
 
         @Override
-        protected Integer doInBackground(Object... params)
-        {
+        protected Integer doInBackground(Object... params) {
             XmlPullParser gettingData = tryDownloadingData();
             int recordsFound = tryParsingXMLData(gettingData);
             return recordsFound;
         }
 
-        private XmlPullParser tryDownloadingData()
-        {
-            try
-            {
+        private XmlPullParser tryDownloadingData() {
+            try {
                 Log.i("EVENTDATA", "Now downloading");
                 URL xmlURL = new URL(QUERY_STRING);
                 XmlPullParser receivedData = XmlPullParserFactory.newInstance().newPullParser();
                 receivedData.setInput(xmlURL.openStream(), null);
                 return receivedData;
-            } catch (XmlPullParserException e)
-            {
+            } catch (XmlPullParserException e) {
                 Log.i("EVENT_XML_exception", e.toString());
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.i("EVENT_IO_exception", e.toString());
             }
             return null;
         }
 
-        private int tryParsingXMLData(XmlPullParser gettingData)
-        {
-            if (gettingData != null)
-            {
-                try
-                {
+        private int tryParsingXMLData(XmlPullParser gettingData) {
+            if (gettingData != null) {
+                try {
                     return processData(gettingData);
-                } catch (XmlPullParserException e)
-                {
+                } catch (XmlPullParserException e) {
                     Log.i("EVENT_XML_exception", e.toString());
 
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     Log.i("EVENT_IO_exception", e.toString());
                 }
             }
             return 0;
         }
 
-        private int processData(XmlPullParser gettingData) throws XmlPullParserException, IOException
-        {
+        private int processData(XmlPullParser gettingData) throws XmlPullParserException, IOException {
             int recordsFound = 0;
 
             String title = "";
@@ -159,34 +150,28 @@ public class Events extends Fragment
             String eventURL = "";
 
             int eventType = -1;
-            while (eventType != XmlResourceParser.END_DOCUMENT)
-            {
+            while (eventType != XmlResourceParser.END_DOCUMENT) {
                 String tagName = gettingData.getName();
 
-                switch (eventType)
-                {
+                switch (eventType) {
                     case XmlResourceParser.START_TAG:
 
-                        if(tagName.equals("event"))
-                        {
+                        if (tagName.equals("event")) {
                             // type of event
                             typeOfEvent = gettingData.getAttributeValue(null, "type");
                             title = gettingData.getAttributeValue(null, "displayName");
                             eventURL = gettingData.getAttributeValue(null, "uri");
                         }
-                        if(tagName.equals("start"))
-                        {
+                        if (tagName.equals("start")) {
                             dateOfEvent = gettingData.getAttributeValue(null, "date");
                         }
-                        if(tagName.equals("venue"))
-                        {
+                        if (tagName.equals("venue")) {
                             location = gettingData.getAttributeValue(null, "displayName");
                         }
                         break;
 
                     case XmlPullParser.END_TAG:
-                        if (tagName.equals("event"))
-                        {
+                        if (tagName.equals("event")) {
                             recordsFound++;
                             publishProgress(title, location, dateOfEvent, typeOfEvent, eventURL);
                         }
@@ -194,43 +179,34 @@ public class Events extends Fragment
                 }
                 eventType = gettingData.next();
             }
-            if (recordsFound == 0)
-            {
+            if (recordsFound == 0) {
                 publishProgress();
             }
             return recordsFound;
         }
 
         @Override
-        protected void onProgressUpdate(String... values)
-        {
-            if (values.length == 0)
-            {
+        protected void onProgressUpdate(String... values) {
+            if (values.length == 0) {
                 Log.i("Events", "There is no data");
             }
 
-            if(values.length > 0)
-            {
-                    //Log.i("NEW EVENT", "----------------- Database insert -----------------------");
+            if (values.length > 0) {
+                //Log.i("NEW EVENT", "----------------- Database insert -----------------------");
 
-                    Log.i("Title", values[0]);
-                    Log.i("Location", values[1]);
-                    Log.i("Date", values[2]);
-                    Log.i("Type of event", values[3]);
-                    Log.i("URL", values[4]);
+                Log.i("Title", values[0]);
+                Log.i("Location", values[1]);
+                Log.i("Date", values[2]);
+                Log.i("Type of event", values[3]);
+                Log.i("URL", values[4]);
 
                 DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
 
-                //db.addEvent(new NewEvent(values[0], values[4], values[1], values[2], values[3]));
+                db.addEvent(new NewEvent(values[0], values[4], values[1], values[2], values[3]));
                 //db.addEvent(new NewEvent("","","","",""));
                 //Log.i("database all", db.getAllEvents().toString());
             }
             super.onProgressUpdate();
-        }
-
-        protected void onPostExecute(String result)
-        {
-            isComplete = true;
         }
     }
 }
