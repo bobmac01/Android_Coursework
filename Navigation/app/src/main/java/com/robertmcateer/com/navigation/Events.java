@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -187,24 +188,37 @@ public class Events extends Fragment
 
         @Override
         protected void onProgressUpdate(String... values) {
-            if (values.length == 0) {
+            if (values.length == 0)
+            {
                 Log.i("Events", "There is no data");
             }
 
-            if (values.length > 0) {
-                //Log.i("NEW EVENT", "----------------- Database insert -----------------------");
+            if (values.length > 0)
+            {
 
+                /*
                 Log.i("Title", values[0]);
                 Log.i("Location", values[1]);
                 Log.i("Date", values[2]);
                 Log.i("Type of event", values[3]);
                 Log.i("URL", values[4]);
-
+                */
                 DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
 
-                db.addEvent(new NewEvent(values[0], values[4], values[1], values[2], values[3]));
-                //db.addEvent(new NewEvent("","","","",""));
-                //Log.i("database all", db.getAllEvents().toString());
+                // Method to check for each database entry
+                Boolean exsists = db.checkDatabase(values[0]);
+
+                if(exsists)
+                {
+                    // Record is found based on title. Moves onto next...
+                    Log.i("CHECK", "RECORD EXSISTS. MOVING...");
+                }
+                else
+                {
+                    // adds to the database
+                    db.addEvent(new NewEvent(values[0], values[4], values[1], values[2], values[3]));
+                }
+
             }
             super.onProgressUpdate();
         }

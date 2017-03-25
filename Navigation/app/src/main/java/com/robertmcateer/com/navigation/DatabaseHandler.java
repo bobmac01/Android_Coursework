@@ -53,7 +53,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        Log.d("BEFORE: ", "");
         values.put(KEY_TITLE, event.getTitle());
         values.put(KEY_URI, event.getURI());
         values.put(KEY_VENUE, event.getVenue());
@@ -62,6 +61,24 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
         db.insert(TABLE_EVENTS, null, values);
         db.close();
+    }
+
+    public boolean checkDatabase(String title)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = null;
+        //String query = "SELECT 1 FROM " + TABLE_EVENTS + " where " + KEY_TITLE + "?";
+        cursor = db.rawQuery("SELECT 1 FROM " + TABLE_EVENTS + " where " + KEY_TITLE + "=?", new String[] {title});
+
+        if(cursor.getCount() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public NewEvent getEvent(String title)
