@@ -51,6 +51,12 @@ public class Events extends Fragment
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
 
+    public void refresh()
+    {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
+
 
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
@@ -191,6 +197,8 @@ public class Events extends Fragment
             if (values.length == 0)
             {
                 Log.i("Events", "There is no data");
+                refresh();
+
             }
 
             if (values.length > 0)
@@ -206,9 +214,9 @@ public class Events extends Fragment
                 DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
 
                 // Method to check for each database entry
-                Boolean exsists = db.checkDatabase(values[0]);
+                Boolean exists = db.checkDatabase(values[0]);
 
-                if(exsists)
+                if(exists)
                 {
                     // Record is found based on title. Moves onto next...
                     Log.i("CHECK", "RECORD EXSISTS. MOVING...");
@@ -218,7 +226,6 @@ public class Events extends Fragment
                     // adds to the database
                     db.addEvent(new NewEvent(values[0], values[4], values[1], values[2], values[3]));
                 }
-
             }
             super.onProgressUpdate();
         }
