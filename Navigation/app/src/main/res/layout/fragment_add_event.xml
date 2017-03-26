@@ -5,9 +5,6 @@
     tools:context="com.robertmcateer.com.navigation.AddEvent">
 
     <!-- TODO: Update blank fragment layout -->
-
-
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +15,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <EditText
                 android:id="@+id/AddEventTitle"
                 android:layout_width="match_parent"
@@ -33,7 +29,8 @@
                 android:layout_width="150sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/AddEventTitle"
-                android:layout_margin="15sp"
+                android:layout_marginLeft="15sp"
+                android:layout_marginRight="15sp"
                 android:ems="10"
                 android:hint="Date"
                 android:inputType="text" />
@@ -44,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/AddEventTitle"
                 android:layout_centerInParent="true"
-                android:layout_margin="15sp"
+                android:layout_marginLeft="15sp"
+                android:layout_marginRight="15sp"
                 android:layout_toRightOf="@id/AddDateText"
                 android:background="@color/button"
                 android:text="Select Date"
@@ -55,9 +53,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/AddDateEvent"
-                android:layout_margin="15sp"
+                android:layout_marginLeft="15sp"
+                android:layout_marginRight="15sp"
+                android:layout_marginTop="5sp"
                 android:ems="10"
-                android:hint="Enter Venue"
+                android:hint="Event Venue"
                 android:inputType="text" />
 
             <EditText
@@ -67,15 +67,27 @@
                 android:layout_below="@+id/AddVenueEvent"
                 android:layout_marginLeft="15sp"
                 android:layout_marginRight="15sp"
+                android:layout_marginTop="5sp"
                 android:ems="10"
-                android:hint="Concert/Festival/Sport? - Event Type"
+                android:hint="Event Type"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/AddURLEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/AddTypeEvent"
+                android:layout_marginLeft="15sp"
+                android:layout_marginRight="15sp"
+                android:layout_marginTop="5sp"
+                android:ems="10"
+                android:hint="URL TO EVENT"
                 android:inputType="text" />
 
         <Button
             android:id="@+id/AddEventButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/AddTypeEvent"
+            android:layout_below="@+id/AddURLEvent"
             android:layout_marginBottom="10sp"
             android:layout_margin="15sp"
             android:layout_centerInParent="true"

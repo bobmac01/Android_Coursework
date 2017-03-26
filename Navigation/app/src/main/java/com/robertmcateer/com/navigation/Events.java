@@ -58,6 +58,27 @@ public class Events extends Fragment
     }
 
 
+    public void update()
+    {
+        DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
+
+        events = new ArrayList<NewEvent>();
+
+        for(NewEvent n : db.getAllEvents())
+        {
+            events.add(new NewEvent(n.getTitle(), n.getURI(), n.getVenue(), n.getDate(), n.getEventType()));
+        }
+
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+
+        RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.card_list);
+        recyclerView.setLayoutManager(manager);
+
+        RecyclerView.Adapter adapter = new MyRecyclerAdapter(events);
+        recyclerView.setAdapter(adapter);
+    }
+
+/*
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
@@ -80,7 +101,7 @@ public class Events extends Fragment
         recyclerView.setAdapter(adapter);
 
     }
-
+*/
     public void DatabaseTest()
     {
         DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
@@ -193,7 +214,8 @@ public class Events extends Fragment
         }
 
         @Override
-        protected void onProgressUpdate(String... values) {
+        protected void onProgressUpdate(String... values)
+        {
             if (values.length == 0)
             {
                 Log.i("Events", "There is no data");
@@ -228,6 +250,12 @@ public class Events extends Fragment
                 }
             }
             super.onProgressUpdate();
+            update();
         }
+
+        protected void onPostExecute(Long result) {
+            Log.i("UPDATE", "FINSHED ASYNC");
+        }
+
     }
 }
