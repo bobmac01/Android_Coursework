@@ -76,32 +76,10 @@ public class Events extends Fragment
 
         RecyclerView.Adapter adapter = new MyRecyclerAdapter(events);
         recyclerView.setAdapter(adapter);
+        db.close();
     }
 
-/*
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-        super.onViewCreated(view, savedInstanceState);
 
-        DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
-
-        events = new ArrayList<NewEvent>();
-
-        for(NewEvent n : db.getAllEvents())
-        {
-            events.add(new NewEvent(n.getTitle(), n.getURI(), n.getVenue(), n.getDate(), n.getEventType()));
-        }
-
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
-
-        RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.card_list);
-        recyclerView.setLayoutManager(manager);
-
-        RecyclerView.Adapter adapter = new MyRecyclerAdapter(events);
-        recyclerView.setAdapter(adapter);
-
-    }
-*/
     public void DatabaseTest()
     {
         DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
@@ -133,13 +111,15 @@ public class Events extends Fragment
                 "http://api.songkick.com/api/3.0/metro_areas/24596/calendar.xml?apikey=LGlk9gNZ5vlumW7u";
 
         @Override
-        protected Integer doInBackground(Object... params) {
+        protected Integer doInBackground(Object... params)
+        {
             XmlPullParser gettingData = tryDownloadingData();
             int recordsFound = tryParsingXMLData(gettingData);
             return recordsFound;
         }
 
-        private XmlPullParser tryDownloadingData() {
+        private XmlPullParser tryDownloadingData()
+        {
             try {
                 Log.i("EVENTDATA", "Now downloading");
                 URL xmlURL = new URL(QUERY_STRING);
@@ -154,7 +134,8 @@ public class Events extends Fragment
             return null;
         }
 
-        private int tryParsingXMLData(XmlPullParser gettingData) {
+        private int tryParsingXMLData(XmlPullParser gettingData)
+        {
             if (gettingData != null) {
                 try {
                     return processData(gettingData);
@@ -168,7 +149,8 @@ public class Events extends Fragment
             return 0;
         }
 
-        private int processData(XmlPullParser gettingData) throws XmlPullParserException, IOException {
+        private int processData(XmlPullParser gettingData) throws XmlPullParserException, IOException
+        {
             int recordsFound = 0;
 
             String title = "";
@@ -225,7 +207,6 @@ public class Events extends Fragment
 
             if (values.length > 0)
             {
-
                 /*
                 Log.i("Title", values[0]);
                 Log.i("Location", values[1]);
@@ -233,6 +214,7 @@ public class Events extends Fragment
                 Log.i("Type of event", values[3]);
                 Log.i("URL", values[4]);
                 */
+
                 DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
 
                 // Method to check for each database entry
@@ -252,10 +234,5 @@ public class Events extends Fragment
             super.onProgressUpdate();
             update();
         }
-
-        protected void onPostExecute(Long result) {
-            Log.i("UPDATE", "FINSHED ASYNC");
-        }
-
     }
 }

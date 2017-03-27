@@ -20,11 +20,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     private List<NewEvent> allEventsList;
 
 
-    public MyRecyclerAdapter(List<NewEvent>allEventsList)
+    MyRecyclerAdapter(List<NewEvent>allEventsList)
     {
         this.allEventsList = allEventsList;
     }
-
 
     @Override
     public MyRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -42,7 +41,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         holder.DATE_EVENT.setText(allEventsList.get(i).getDate());
         holder.TYPE_EVENT.setText(allEventsList.get(i).getEventType());
 
-        holder.VIEW_BUTTON.setOnClickListener(new View.OnClickListener(){
+        holder.VIEW_BUTTON.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 // Store url in String var.
@@ -57,12 +57,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             }
         });
 
-        holder.EDIT_BUTTON.setOnClickListener(new View.OnClickListener(){
+        holder.EDIT_BUTTON.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 /// button click event
                 Log.i("EVENT", allEventsList.get(i).getTitle());
-
             }
         });
     }
@@ -72,7 +73,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         return allEventsList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder
+    protected class ViewHolder extends RecyclerView.ViewHolder
     {
         private TextView TITLE;
         private TextView LOCATION;
@@ -90,7 +91,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             TYPE_EVENT = (TextView)view.findViewById(R.id.card_event_type);
             VIEW_BUTTON = (Button)view.findViewById(R.id.viewBtn);
             EDIT_BUTTON = (Button)view.findViewById(R.id.editBtn);
-
         }
     }
 }
