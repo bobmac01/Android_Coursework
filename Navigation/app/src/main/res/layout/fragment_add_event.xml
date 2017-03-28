@@ -24,7 +24,7 @@
                 android:hint="Enter title"
                 android:inputType="text" />
 
-            <EditText
+            <TextView
                 android:id="@+id/AddDateText"
                 android:layout_width="150sp"
                 android:layout_height="wrap_content"
