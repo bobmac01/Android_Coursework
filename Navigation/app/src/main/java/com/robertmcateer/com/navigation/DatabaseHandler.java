@@ -14,7 +14,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
 {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "events";
-
     private static final String TABLE_EVENTS = "eventTable";
 
     // Table columns
@@ -24,7 +23,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     private static final String KEY_DATE = "date";
     private static final String KEY_TYPE = "eventType";
 
-    public DatabaseHandler(Context context)
+    DatabaseHandler(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -49,7 +48,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    public void addEvent(NewEvent event)
+    void addEvent(NewEvent event)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -64,7 +63,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         db.close();
     }
 
-    public boolean checkDatabase(String title)
+    boolean checkDatabase(String title)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -82,7 +81,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         }
     }
 
-    public NewEvent getEvent(String title)
+    NewEvent getEvent(String title)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -104,10 +103,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
                 cursor.getString(3),
                 cursor.getString(4)
                 );
+        Log.i("DATABASE", title);
         return event;
     }
 
-    public List<NewEvent> getAllEvents()
+    List<NewEvent> getAllEvents()
     {
         List<NewEvent> eventlist = new ArrayList<NewEvent>();
 
@@ -134,6 +134,37 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return eventlist;
     }
 
+    public List<NewEvent> searchResults(String search)
+    {
+        List<NewEvent> results = new ArrayList<>();
+
+        String sql="SELECT * FROM "+TABLE_EVENTS+" WHERE "+KEY_TITLE+" LIKE '%"+search+"%'";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);;
+
+        Log.i("DATABASE", "It's working?");
+
+        // Loop time
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                NewEvent event = new NewEvent();
+                event.setTitle(cursor.getString(0));
+                event.setURI(cursor.getString(1));
+                event.setVenue(cursor.getString(2));
+                event.setDate(cursor.getString(3));
+                event.setEventType(cursor.getString(4));
+
+                results.add(event);
+                Log.i("SEARCH", event.getTitle());
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return results;
+    }
+
     public int getEventsCount()
     {
         String countquery = "SELECT * FROM " + TABLE_EVENTS;
@@ -144,7 +175,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return cursor.getCount();
     }
 
-    public int updateEvent(NewEvent event)
+    int updateEvent(NewEvent event)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -160,12 +191,5 @@ public class DatabaseHandler extends SQLiteOpenHelper
                 new String[] { String.valueOf(event.getTitle()) });
     }
 
-    public void deleteEvent(NewEvent event)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_EVENTS, KEY_TITLE + " = ?",
-                new String[] { String.valueOf(event.getTitle()) });
-        db.close();
-    }
 
 }

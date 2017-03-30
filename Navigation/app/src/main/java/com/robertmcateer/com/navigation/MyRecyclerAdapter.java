@@ -1,8 +1,9 @@
 package com.robertmcateer.com.navigation;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,10 +61,21 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         holder.EDIT_BUTTON.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
-                /// button click event
+            public void onClick(View v) {
+                /// Log event that has been clicked
                 Log.i("EVENT", allEventsList.get(i).getTitle());
+
+                // Call for new fragment to view
+                EditEvent newFragment = new EditEvent();
+                FragmentTransaction transaction = ((FragmentActivity) v.getContext()).getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_container, newFragment);
+
+                // This is so the EditFragment knows what to search for to populate text fields
+                // Static variable
+                newFragment.titleCheck = allEventsList.get(i).getTitle();
+
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }

@@ -1,22 +1,16 @@
 package com.robertmcateer.com.navigation;
 
-import android.content.Context;
 import android.content.res.XmlResourceParser;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.squareup.picasso.Picasso;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -30,15 +24,8 @@ import java.util.List;
 public class Events extends Fragment
 {
     public static ArrayList<NewEvent> events;
-    public Boolean isComplete;
 
-    GetEventData event = new GetEventData();
-
-
-    public Events()
-    {
-        // Required empty public constructor
-    }
+    public Events(){} // Empty constructor
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,9 +89,10 @@ public class Events extends Fragment
 
             Log.d("EVENT", log);
         }
+        db.close();
     }
 
-    public class GetEventData extends AsyncTask<Object, String, Integer>
+    private class GetEventData extends AsyncTask<Object, String, Integer>
     {
 
         private final String QUERY_STRING =
@@ -215,7 +203,7 @@ public class Events extends Fragment
                 Log.i("URL", values[4]);
                 */
 
-                DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
+                DatabaseHandler db = new DatabaseHandler(getContext());
 
                 // Method to check for each database entry
                 Boolean exists = db.checkDatabase(values[0]);
@@ -224,14 +212,18 @@ public class Events extends Fragment
                 {
                     // Record is found based on title. Moves onto next...
                     Log.i("CHECK", "RECORD EXSISTS. MOVING...");
+
                 }
                 else
                 {
                     // adds to the database
                     db.addEvent(new NewEvent(values[0], values[4], values[1], values[2], values[3]));
+
                 }
+                db.close();
             }
             super.onProgressUpdate();
+
             update();
         }
     }

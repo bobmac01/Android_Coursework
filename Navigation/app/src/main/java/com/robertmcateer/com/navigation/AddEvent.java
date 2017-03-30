@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddEvent extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
+public class AddEvent extends Fragment implements DatePickerDialog.OnDateSetListener, View.OnClickListener
+{
 
     EditText TITLE_TEXT, VENUE_TEXT, URL_TEXT, TYPE_TEXT;
     TextView DATE_TEXT;
@@ -43,8 +43,6 @@ public class AddEvent extends Fragment implements DatePickerDialog.OnDateSetList
         dateBtn = (Button)v.findViewById(R.id.AddDateEvent);
         addBtn = (Button)v.findViewById(R.id.AddEventButton);
 
-
-
         addBtn.setOnClickListener(this);
         dateBtn.setOnClickListener(this);
 
@@ -71,7 +69,7 @@ public class AddEvent extends Fragment implements DatePickerDialog.OnDateSetList
         return true;
     }
 
-    private void addNewEvent(String title, String date, String venue, String type, String url)
+    private void addNewEvent(String title, String url, String venue, String date, String type)
     {
         DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
         boolean cleanedFields = validateFields(new EditText[]{TITLE_TEXT, URL_TEXT, VENUE_TEXT, TYPE_TEXT});
@@ -90,6 +88,7 @@ public class AddEvent extends Fragment implements DatePickerDialog.OnDateSetList
                         Toast.LENGTH_LONG
                 );
                 toast.show();
+                db.close();
             }
             else
             {
@@ -132,8 +131,8 @@ public class AddEvent extends Fragment implements DatePickerDialog.OnDateSetList
                         TITLE_TEXT.toString(),
                         URL_TEXT.toString(),
                         VENUE_TEXT.toString(),
-                        TYPE_TEXT.toString(),
-                        URL_TEXT.toString());
+                        DATE_TEXT.toString(),
+                        TYPE_TEXT.toString());
                 break;
 
             default:
