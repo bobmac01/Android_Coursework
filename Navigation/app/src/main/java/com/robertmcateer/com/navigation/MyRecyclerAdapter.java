@@ -17,9 +17,7 @@ import java.util.List;
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>
 {
-
     private List<NewEvent> allEventsList;
-
 
     MyRecyclerAdapter(List<NewEvent>allEventsList)
     {
@@ -54,7 +52,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
                 // Code to open browser
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
-                v.getContext().getApplicationContext().startActivity(i);
+                v.getContext().startActivity(i);
             }
         });
 

@@ -134,11 +134,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return eventlist;
     }
 
-    public List<NewEvent> searchResults(String search)
+    List<NewEvent> searchResults(String search)
     {
         List<NewEvent> results = new ArrayList<>();
 
-        String sql="SELECT * FROM "+TABLE_EVENTS+" WHERE "+KEY_TITLE+" LIKE '%"+search+"%'";
+        String sql="SELECT * FROM "+TABLE_EVENTS+ " where "+ KEY_TITLE +" LIKE '%" + search + "%'";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);;
 
@@ -157,7 +157,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
                 event.setEventType(cursor.getString(4));
 
                 results.add(event);
-                Log.i("SEARCH", event.getTitle());
+                //Log.i("SEARCH", event.getTitle());
 
             } while (cursor.moveToNext());
         }

@@ -128,11 +128,11 @@ public class AddEvent extends Fragment implements DatePickerDialog.OnDateSetList
 
             case R.id.AddEventButton:
                 addNewEvent(
-                        TITLE_TEXT.toString(),
-                        URL_TEXT.toString(),
-                        VENUE_TEXT.toString(),
-                        DATE_TEXT.toString(),
-                        TYPE_TEXT.toString());
+                        TITLE_TEXT.getText().toString(),
+                        URL_TEXT.getText().toString(),
+                        VENUE_TEXT.getText().toString(),
+                        DATE_TEXT.getText().toString(),
+                        TYPE_TEXT.getText().toString());
                 break;
 
             default:
