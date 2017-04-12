@@ -56,7 +56,7 @@ public class Search extends Fragment implements View.OnClickListener {
 
         if(search.equals(""))
         {
-            Toast toast = Toast.makeText(getContext(), "You need to enter a search term above :-)", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getContext(), "You need to enter a search term above :-)", Toast.LENGTH_LONG);
             toast.show();
         }
         else
@@ -64,7 +64,7 @@ public class Search extends Fragment implements View.OnClickListener {
             if(db.searchResults(search).size() == 0)
             {
                 Log.i("DATABASE SEARCH","it's zero!");
-                Toast toast = Toast.makeText(getContext(), "There's nothing matching that string!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getContext(), "There's nothing matching that string!", Toast.LENGTH_LONG);
                 toast.show();
             }
             else

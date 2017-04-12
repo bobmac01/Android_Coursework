@@ -3,6 +3,7 @@ package com.robertmcateer.com.navigation;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -21,9 +25,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Events extends Fragment
+public class Events extends Fragment implements View.OnClickListener
 {
     public static ArrayList<NewEvent> events;
+    FloatingActionButton addEventBtn;
+    FragmentTransaction ft;
 
     public Events(){} // Empty constructor
 
@@ -31,19 +37,34 @@ public class Events extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        View v = inflater.inflate(R.layout.fragment_events, container, false);
+        this.addEventBtn = (FloatingActionButton) v.findViewById(R.id.addEventFloatingButton);
+
+        addEventBtn.setOnClickListener(this);
+
         GetEventData g = new GetEventData();
         g.execute();
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_events, container, false);
+
+        return v;
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        Search frag = new Search();
+        ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.main_container, frag).commit();
+        TextView title = (TextView)getActivity().findViewById(R.id.toolbarTextView);
+        title.setText("Search");
     }
 
     public void refresh()
     {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
     }
-
 
     public void update()
     {
@@ -56,8 +77,13 @@ public class Events extends Fragment
             events.add(new NewEvent(n.getTitle(), n.getURI(), n.getVenue(), n.getDate(), n.getEventType()));
         }
 
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+        if(events.size() == 0)
+        {
+            Toast toast = Toast.makeText(getContext(), "There's no events!", Toast.LENGTH_LONG);
+            toast.show();
+        }
 
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         RecyclerView recyclerView = (RecyclerView)getActivity().findViewById(R.id.card_list);
         recyclerView.setLayoutManager(manager);
 
@@ -65,7 +91,6 @@ public class Events extends Fragment
         recyclerView.setAdapter(adapter);
         db.close();
     }
-
 
     public void DatabaseTest()
     {
@@ -95,6 +120,13 @@ public class Events extends Fragment
     private class GetEventData extends AsyncTask<Object, String, Integer>
     {
 
+        /*
+        I can't query the Songklick API much more as if i use the device location city it
+        returns data from Aberdeen in America. It's just down to the way they arvhice their data also.
+        Each city is a "metro_area" in the URL so you need to find the code for your given area.
+
+        This example: Aberdeen City = 24596
+         */
         private final String QUERY_STRING =
                 "http://api.songkick.com/api/3.0/metro_areas/24596/calendar.xml?apikey=LGlk9gNZ5vlumW7u";
 

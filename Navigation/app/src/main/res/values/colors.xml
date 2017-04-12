@@ -8,5 +8,5 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorWhite">#ffffff</color>
     <color name="transparent">#00000000</color>
-    <color name="button">#FFC107</color>
+    <color name="button">#ffc107</color>
 </resources>

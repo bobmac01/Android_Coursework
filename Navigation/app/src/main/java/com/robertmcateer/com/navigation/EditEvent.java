@@ -39,6 +39,9 @@ public class EditEvent extends Fragment implements DatePickerDialog.OnDateSetLis
     {
         View v = inflater.inflate(R.layout.fragment_edit_event, container, false);
 
+        TextView title = (TextView)getActivity().findViewById(R.id.toolbarTextView);
+        title.setText("Edit Event");
+
         DatabaseHandler db = new DatabaseHandler(getContext());
         ne = db.getEvent(titleCheck);
 
