@@ -2,4 +2,4 @@
 Coursework for fourth year android class
 
 
-Build and Tested on Android AVD: Nexus 5 API 24
+Built and Tested for Android AVD: Nexus 5 API 24
